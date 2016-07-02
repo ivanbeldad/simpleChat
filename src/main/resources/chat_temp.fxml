@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="824.0" prefWidth="700.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rackian.controllers.ChatController">
+   <children>
+      <Label alignment="TOP_CENTER" contentDisplay="TOP" maxWidth="1.7976931348623157E308" style="-fx-background-color: #F57C00;" text="Simple Chat - Sockets" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Open Sans" size="18.0" />
+         </font>
+         <padding>
+            <Insets bottom="18.0" top="18.0" />
+         </padding>
+         <effect>
+            <DropShadow color="#00000065" offsetY="5.0" />
+         </effect>
+         <VBox.margin>
+            <Insets bottom="3.0" />
+         </VBox.margin>
+      </Label>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100000.0">
+         <children>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" spacing="20.0">
+                     <children>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #FFEB3B;" text="Nick" textAlignment="CENTER" textFill="#333333">
+                                 <font>
+                                    <Font name="Open Sans" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                                 <effect>
+                                    <DropShadow color="#00000027" height="20.0" offsetY="5.0" radius="12.0" width="30.0" />
+                                 </effect>
+                              </Label>
+                              <TextField fx:id="tfNick" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" promptText="Escriba su nick..." style="-fx-background-color: #ffffff; -fx-border-color: #cccccc;">
+                                 <font>
+                                    <Font name="Open Sans" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </TextField>
+                           </children>
+                        </VBox>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #FFEB3B;" text="Host Remoto" textAlignment="CENTER" textFill="#333333">
+                                 <effect>
+                                    <DropShadow color="#00000027" height="25.0" offsetY="5.0" radius="13.25" width="30.0" />
+                                 </effect>
+                                 <font>
+                                    <Font name="Open Sans" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="tfIp" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" promptText="Escriba la ip..." style="-fx-background-color: #ffffff; -fx-border-color: #cccccc;">
+                                 <font>
+                                    <Font name="Open Sans" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </TextField>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0">
+                     <children>
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="335.0" prefWidth="462.0" style="-fx-border-color: rgba(0,0,0,0); -fx-background-color: rgba(0,0,0,0);">
+                           <content>
+                              <VBox fx:id="messagePane" spacing="10.0">
+                                 <children>
+                                    <VBox fx:id="messageReceived" maxHeight="10000.0" minWidth="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="438.0" spacing="2.0" style="-fx-background-color: #ffffff; -fx-background-radius: 2;">
+                                       <children>
+                                          <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="messageNick" contentDisplay="RIGHT" text="Nick" textFill="#00eb52">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="messageTime" contentDisplay="TOP" text="00:00" textFill="#666666">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="11.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label fx:id="messageContent" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" minHeight="-Infinity" text="Recibido" textFill="#333333" wrapText="true">
+                                             <font>
+                                                <Font name="Open Sans" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <effect>
+                                          <DropShadow blurType="TWO_PASS_BOX" color="#00000033" height="12.5" offsetY="3.0" radius="6.375" width="15.0" />
+                                       </effect>
+                                       <padding>
+                                          <Insets bottom="8.0" left="13.0" right="13.0" top="7.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets right="50.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                    <VBox fx:id="messageSent" maxHeight="10000.0" minWidth="0.0" nodeOrientation="RIGHT_TO_LEFT" spacing="2.0" style="-fx-background-color: #D0FFE0; -fx-background-radius: 2;">
+                                       <children>
+                                          <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="messageTime" contentDisplay="TOP" text="00:00" textFill="#666666">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="11.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="messageNick" contentDisplay="RIGHT" text="Nick" textFill="#945f55">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label fx:id="messageContent" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" minHeight="-Infinity" text="Enviado" textFill="#333333" wrapText="true">
+                                             <font>
+                                                <Font name="Open Sans" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <effect>
+                                          <DropShadow blurType="TWO_PASS_BOX" color="#00000033" height="12.5" offsetY="3.0" radius="6.375" width="15.0" />
+                                       </effect>
+                                       <padding>
+                                          <Insets bottom="8.0" left="13.0" right="13.0" top="7.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="30.0">
+                           <children>
+                              <TextField fx:id="tfMessage" minWidth="300.0" onKeyPressed="#handleSendKey" prefHeight="40.0" prefWidth="10000.0" promptText="Escriba un mensaje..." style="-fx-background-color: #ffffff; -fx-border-color: #cccccc;">
+                                 <font>
+                                    <Font name="Open Sans" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </TextField>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" minWidth="100.0" onAction="#handleSend" style="-fx-background-color: #4CAF50;" text="Enviar" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="Open Sans" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="9.0" left="20.0" right="20.0" top="9.0" />
+                                 </padding>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="316.0" prefWidth="462.0" style="-fx-border-color: rgba(0,0,0,0); -fx-background-color: rgba(0,0,0,0);">
+                           <content>
+                              <VBox fx:id="messagePane1" fillWidth="false" spacing="10.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aquí está escrito un mensaje muy largo que no entra en una sola línea para probar la aplicación. A ver si soy capaz de hacerlo funcionar de una vez, no puede ser tan dificil." textOrigin="CENTER">
+                                       <font>
+                                          <Font name="Open Sans" size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <AnchorPane maxHeight="1.7976931348623157E308">
+                                       <children>
+                                          <Label fx:id="messageContent4" contentDisplay="RIGHT" maxHeight="99999.0" text="Aquí está escrito un mensaje muy largo que no entra en una sola línea para probar la aplicación. A ver si soy capaz de hacerlo funcionar de una vez, no puede ser tan dificil." textFill="#333333" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <font>
+                                                <Font name="Open Sans" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
+                                    <VBox fx:id="messageReceived1" fillWidth="false" maxHeight="10000.0" minWidth="0.0" nodeOrientation="LEFT_TO_RIGHT" spacing="2.0" style="-fx-background-color: #ffffff; -fx-background-radius: 2;">
+                                       <children>
+                                          <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="messageNick" contentDisplay="RIGHT" text="Nick" textFill="#00eb52">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="messageTime" contentDisplay="TOP" text="00:00" textFill="#666666">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="11.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label fx:id="messageContent" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" minHeight="-Infinity" style="-fx-content-display: block;" text="Aquí está escrito un mensaje muy largo que no entra en una sola línea para probar la aplicación. A ver si soy capaz de hacerlo funcionar de una vez, no puede ser tan dificil." textFill="#333333" wrapText="true">
+                                             <font>
+                                                <Font name="Open Sans" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <effect>
+                                          <DropShadow blurType="TWO_PASS_BOX" color="#00000033" height="12.5" offsetY="3.0" radius="6.375" width="15.0" />
+                                       </effect>
+                                       <padding>
+                                          <Insets bottom="8.0" left="13.0" right="13.0" top="7.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox fx:id="messageSent1" fillWidth="false" maxHeight="10000.0" minWidth="0.0" nodeOrientation="RIGHT_TO_LEFT" spacing="2.0" style="-fx-background-color: #ffffff; -fx-background-radius: 2;">
+                                       <children>
+                                          <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="messageTime1" contentDisplay="TOP" text="00:00" textFill="#666666">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="11.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="messageNick1" contentDisplay="RIGHT" text="Nick" textFill="#00eb52">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label fx:id="messageContent1" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" minHeight="-Infinity" text="Aquí está escrito un mensaje muy largo que no entra en una sola línea para probar la aplicación. A ver si soy capaz de hacerlo funcionar de una vez, no puede ser tan dificil." textFill="#333333" wrapText="true">
+                                             <font>
+                                                <Font name="Open Sans" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <effect>
+                                          <DropShadow blurType="TWO_PASS_BOX" color="#00000033" height="12.5" offsetY="3.0" radius="6.375" width="15.0" />
+                                       </effect>
+                                       <padding>
+                                          <Insets bottom="8.0" left="13.0" right="13.0" top="7.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox fx:id="messageReceived11" fillWidth="false" maxHeight="10000.0" minWidth="0.0" nodeOrientation="LEFT_TO_RIGHT" spacing="2.0" style="-fx-background-color: #ffffff; -fx-background-radius: 2;">
+                                       <children>
+                                          <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="messageNick2" contentDisplay="RIGHT" text="Nick" textFill="#00eb52">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="messageTime2" contentDisplay="TOP" text="00:00" textFill="#666666">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="11.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label fx:id="messageContent2" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" minHeight="-Infinity" text="Recibido" textFill="#333333" wrapText="true">
+                                             <font>
+                                                <Font name="Open Sans" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <effect>
+                                          <DropShadow blurType="TWO_PASS_BOX" color="#00000033" height="12.5" offsetY="3.0" radius="6.375" width="15.0" />
+                                       </effect>
+                                       <padding>
+                                          <Insets bottom="8.0" left="13.0" right="13.0" top="7.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox fx:id="messageSent11" maxHeight="10000.0" minWidth="0.0" nodeOrientation="RIGHT_TO_LEFT" spacing="2.0" style="-fx-background-color: #ffffff; -fx-background-radius: 2;">
+                                       <children>
+                                          <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="messageTime11" contentDisplay="TOP" text="00:00" textFill="#666666">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="11.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="messageNick11" contentDisplay="RIGHT" text="Nick" textFill="#00eb52">
+                                                   <font>
+                                                      <Font name="Open Sans Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label fx:id="messageContent11" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" minHeight="-Infinity" text="Enviado" textFill="#333333" wrapText="true">
+                                             <font>
+                                                <Font name="Open Sans" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <effect>
+                                          <DropShadow blurType="TWO_PASS_BOX" color="#00000033" height="12.5" offsetY="3.0" radius="6.375" width="15.0" />
+                                       </effect>
+                                       <padding>
+                                          <Insets bottom="8.0" left="13.0" right="13.0" top="7.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
