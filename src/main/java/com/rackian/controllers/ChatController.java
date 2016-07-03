@@ -130,6 +130,9 @@ public class ChatController implements Initializable {
         // ENVIO EL MENSAJE MEDIANTE SOCKETS
         sendMessage(message);
 
+        // LO AÑADO A LA LISTA
+        messages.add(message);
+
         // RESETEO EL CAMPO
         tfMessage.setText("");
 
@@ -206,7 +209,6 @@ public class ChatController implements Initializable {
 
         // LOS ORDENO POR FECHA
         Collections.sort(messages);
-
 
         // LOS MUESTRO EN EL PANEL
         messages.forEach(m -> {

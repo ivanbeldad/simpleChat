@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadFactory;
 
 public class Main extends Application {
 
-    public static final String SERVER_IP = "192.168.1.100";
+    public static final String SERVER_IP = "192.168.1.254";
 
     public static final int PORT_LOGIN = 5000;
     public static final int PORT_REGISTER = 5001;
