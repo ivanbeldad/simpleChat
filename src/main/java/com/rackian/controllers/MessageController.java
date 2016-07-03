@@ -56,8 +56,14 @@ public class MessageController {
         loader = new FXMLLoader();
 
         if (direction == MESSAGE_RECEIVED) {
+            Message tempMessage = new Message();
+            tempMessage.setUserOri(message.getUserDest());
+            tempMessage.setUserDest(message.getUserOri());
+            tempMessage.setMessage(message.getMessage());
+            tempMessage.setTime(message.getTime());
+
             loader.setLocation(getClass().getClassLoader().getResource("messageReceived.fxml"));
-            loader.setController(new MessageReceivedController(message));
+            loader.setController(new MessageReceivedController(tempMessage));
         } else if (direction == MESSAGE_SENT) {
             loader.setLocation(getClass().getClassLoader().getResource("messageSent.fxml"));
             loader.setController(new MessageSentController(message));

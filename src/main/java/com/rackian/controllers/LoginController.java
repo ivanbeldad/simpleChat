@@ -22,6 +22,7 @@ import java.util.List;
 public class LoginController {
 
     private User user;
+    private List<User> contacts;
     private List<Message> messages;
 
     @FXML
@@ -117,12 +118,17 @@ public class LoginController {
 
         if (auth) {
             System.out.println("Acceso autorizado");
+            // READ USER
             user = (User) ois.readObject();
+            // READ CONTACTS
+            contacts = (List<User>) ois.readObject();
+            // READ MESSAGES
             messages = (List<Message>) ois.readObject();
 
             // GO TO CHAT APP
             ChatController controller = new ChatController();
             controller.setUser(user);
+            controller.setContacts(contacts);
             controller.setMessages(messages);
             Stage stage = (Stage) email.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader();
