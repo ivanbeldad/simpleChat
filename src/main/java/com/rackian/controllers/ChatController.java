@@ -1,5 +1,6 @@
 package com.rackian.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import com.rackian.Main;
@@ -23,7 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,7 +46,7 @@ public class ChatController implements Initializable {
     private User user;
     private User userDest;
     private List<User> contacts;
-    private List<Message> messages;
+    private static List<Message> messages;
 
     @FXML
     private Label lNick;
@@ -63,12 +67,12 @@ public class ChatController implements Initializable {
         this.user = user;
     }
 
-    public List<Message> getMessages() {
+    public static List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
+    public static void setMessages(List<Message> messages) {
+        ChatController.messages = messages;
     }
 
     public List<User> getContacts() {
@@ -83,6 +87,7 @@ public class ChatController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         lNick.setText(user.getNick());
+        tfMessage.setDisable(true);
 
         // INICIO EL SERVICIO DE ESCUCHA
         Thread thread = new Thread(new ReceiveMessageService(messagePane));
@@ -102,6 +107,9 @@ public class ChatController implements Initializable {
                 label.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
                     @Override
                     public void handle(Event event) {
+                        if (tfMessage.isDisable()) {
+                            tfMessage.setDisable(false);
+                        }
                         Label pulsed = (Label) event.getTarget();
                         userDest = contact;
                         loadMessages(userDest);

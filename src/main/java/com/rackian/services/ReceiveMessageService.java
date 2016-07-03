@@ -1,6 +1,7 @@
 package com.rackian.services;
 
 import com.rackian.Main;
+import com.rackian.controllers.ChatController;
 import com.rackian.controllers.MessageController;
 import com.rackian.models.Message;
 import javafx.application.Platform;
@@ -49,10 +50,14 @@ public class ReceiveMessageService implements Runnable {
             is = socket.getInputStream();
             ois = new ObjectInputStream(is);
 
+            // RECIBO EL MENSAJE Y CIERRO LA CONEXION
             message = (Message)ois.readObject();
             socket.close();
 
+            // AGREGO EL MENSAJE A LA LISTA
+            ChatController.getMessages().add(message);
 
+            // CREO EL MENSAJE EN EL PANEL
             mc = new MessageController();
             mc.setParent(messagePane);
             mc.setMessage(message);

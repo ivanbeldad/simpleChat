@@ -41,7 +41,7 @@
                            <DropShadow color="#00000027" height="20.0" offsetY="5.0" radius="12.0" width="30.0" />
                         </effect>
                      </Label>
-                     <JFXListView fx:id="usersListView" styleClass="mylistview" depthProperty="2" editable="true" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="250.0" showTooltip="true" style="-fx-background-insets: 1; -fx-background-color: rgba(0,0,0,0);">
+                     <JFXListView fx:id="usersListView" depthProperty="2" editable="true" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="250.0" showTooltip="true" style="-fx-background-insets: 1; -fx-background-color: rgba(0,0,0,0);" styleClass="mylistview">
                         <groupnode>
                            <Label> Contacts </Label>
                         </groupnode>
