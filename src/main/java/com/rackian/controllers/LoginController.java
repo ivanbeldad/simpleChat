@@ -3,6 +3,7 @@ package com.rackian.controllers;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.rackian.Main;
+import com.rackian.models.Message;
 import com.rackian.models.User;
 import com.rackian.services.AliveService;
 import javafx.fxml.FXML;
@@ -16,10 +17,12 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.List;
 
 public class LoginController {
 
     private User user;
+    private List<Message> messages;
 
     @FXML
     private JFXTextField email;
@@ -115,10 +118,12 @@ public class LoginController {
         if (auth) {
             System.out.println("Acceso autorizado");
             user = (User) ois.readObject();
+            messages = (List<Message>) ois.readObject();
 
             // GO TO CHAT APP
             ChatController controller = new ChatController();
-            controller.setNick(user.getNick());
+            controller.setUser(user);
+            controller.setMessages(messages);
             Stage stage = (Stage) email.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("chat.fxml"));

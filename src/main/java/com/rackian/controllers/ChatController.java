@@ -2,7 +2,8 @@ package com.rackian.controllers;
 
 import com.rackian.Main;
 import com.rackian.models.Message;
-import com.rackian.services.MessageService;
+import com.rackian.models.User;
+import com.rackian.services.ReceiveMessageService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -18,11 +19,14 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
 
-    private String nick;
+    private User user;
+    private List<Message> messages;
+
     @FXML
     private Label lNick;
     @FXML
@@ -32,26 +36,38 @@ public class ChatController implements Initializable {
     @FXML
     private ScrollPane scrollPane;
 
-    public String getNick() {
-        return nick;
+    public User getUser() {
+        return user;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        lNick.setText(nick);
+        lNick.setText(user.getNick());
 
         // INICIO EL SERVICIO DE ESCUCHA
-        Thread thread = new Thread(new MessageService(messagePane));
+        Thread thread = new Thread(new ReceiveMessageService(messagePane));
         thread.setDaemon(true);
         thread.start();
 
         // HAGO UN BINDEO DEL SCROLL
         scrollBind();
+
+        for (Message message : messages) {
+            System.out.println(message.getMessage());
+        }
 
     }
 
@@ -93,7 +109,7 @@ public class ChatController implements Initializable {
         OutputStream os;
         ObjectOutputStream oos;
 
-        socket = new Socket(Main.SERVER_IP, 1122);
+        socket = new Socket(Main.SERVER_IP, Main.PORT_SEND_MESSAGES);
         os = socket.getOutputStream();
         oos = new ObjectOutputStream(os);
         oos.writeObject(getMessage());
@@ -106,7 +122,8 @@ public class ChatController implements Initializable {
     private Message getMessage() {
         Message message;
         message = new Message();
-        message.setNick(nick);
+        message.setUserOri(user);
+        message.setUserDest(user); // ************************ PENDIENTE DE CAMBIO ************************
         message.setMessage(tfMessage.getText());
         message.setTime(LocalDateTime.now());
         return message;

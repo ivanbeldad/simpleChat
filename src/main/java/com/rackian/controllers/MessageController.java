@@ -3,7 +3,6 @@ package com.rackian.controllers;
 import com.rackian.models.Message;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -57,10 +56,10 @@ public class MessageController {
         loader = new FXMLLoader();
 
         if (direction == MESSAGE_RECEIVED) {
-            loader.setLocation(getClass().getClassLoader().getResource("messages/messageReceived.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("messageReceived.fxml"));
             loader.setController(new MessageReceivedController(message));
         } else if (direction == MESSAGE_SENT) {
-            loader.setLocation(getClass().getClassLoader().getResource("messages/messageSent.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("messageSent.fxml"));
             loader.setController(new MessageSentController(message));
         }
 

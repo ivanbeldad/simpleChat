@@ -1,5 +1,6 @@
 package com.rackian.services;
 
+import com.rackian.Main;
 import com.rackian.controllers.MessageController;
 import com.rackian.models.Message;
 import javafx.application.Platform;
@@ -10,11 +11,11 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class MessageService implements Runnable {
+public class ReceiveMessageService implements Runnable {
 
     private Pane messagePane;
 
-    public MessageService(Pane messagePane) {
+    public ReceiveMessageService(Pane messagePane) {
 
         this.messagePane = messagePane;
 
@@ -37,19 +38,24 @@ public class MessageService implements Runnable {
         Socket socket;
         InputStream is;
         ObjectInputStream ois;
+        Message message;
 
-        serverSocket = new ServerSocket(1122);
+
+        serverSocket = new ServerSocket(Main.PORT_RECEIVE_MESSAGES);
 
         while (true) {
-
+            MessageController mc;
             socket = serverSocket.accept();
             is = socket.getInputStream();
             ois = new ObjectInputStream(is);
 
-            MessageController mc;
+            message = (Message)ois.readObject();
+            socket.close();
+
+
             mc = new MessageController();
             mc.setParent(messagePane);
-            mc.setMessage((Message)ois.readObject());
+            mc.setMessage(message);
             mc.setDirection(MessageController.MESSAGE_RECEIVED);
 
             Platform.runLater(new Runnable() {

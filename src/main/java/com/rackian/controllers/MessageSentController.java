@@ -28,7 +28,7 @@ class MessageSentController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        messageNickSent.setText(message.getNick());
+        messageNickSent.setText(message.getUserOri().getNick());
         messageContentSent.setText(message.getMessage());
         messageTimeSent.setText(message.getTimeString());
 

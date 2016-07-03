@@ -28,7 +28,7 @@ class MessageReceivedController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        messageNickReceived.setText(message.getNick());
+        messageNickReceived.setText(message.getUserDest().getNick());
         messageContentReceived.setText(message.getMessage());
         messageTimeReceived.setText(message.getTimeString());
 

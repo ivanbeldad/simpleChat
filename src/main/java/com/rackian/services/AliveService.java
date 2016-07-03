@@ -2,58 +2,17 @@ package com.rackian.services;
 
 import com.rackian.Main;
 import com.rackian.models.User;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 
 public class AliveService implements Runnable {
-/*
-    public void reportOn() {
 
-        try {
+    List<User> onlineUsers;
 
-            Socket socket;
-            OutputStream outputStream;
-            ObjectOutputStream objectOutputStream;
-
-            User user;
-            user = new User();
-            user.setNick("Akimah");
-
-            System.out.println("Informando conexion");
-            socket = new Socket(Main.SERVER_IP, Main.PORT_ALIVE);
-            outputStream = socket.getOutputStream();
-            objectOutputStream = new ObjectOutputStream(outputStream);
-
-            objectOutputStream.writeObject(user);
-
-            objectOutputStream.close();
-            outputStream.close();
-            socket.close();
-
-        } catch (Exception ex) {
-        }
-
-        listen();
-
-    }
-
-    private void listen (){
-
-        Thread listenThread;
-        Runnable listenRunnable;
-
-        listenRunnable = new Listen();
-
-        listenThread = new Thread(listenRunnable);
-        listenThread.setDaemon(true);
-        listenThread.start();
-
-    }
-*/
     private int port;
 
     public AliveService() {
@@ -76,12 +35,25 @@ public class AliveService implements Runnable {
 
         ServerSocket serverSocket;
         Socket socket;
+        InputStream is;
+        ObjectInputStream ois;
+
 
         try {
             serverSocket = new ServerSocket(port);
 
             while (true) {
                 socket = serverSocket.accept();
+
+                try {
+                    is = socket.getInputStream();
+                    ois = new ObjectInputStream(is);
+                    onlineUsers = (List<User>) ois.readObject();
+                    System.out.println("Nuevas actualizaciones");
+                } catch (Exception ex) {
+
+                }
+
                 socket.close();
             }
 
@@ -92,31 +64,3 @@ public class AliveService implements Runnable {
     }
 
 }
-
-/*
-class Listen implements Runnable {
-
-    @Override
-    public void run() {
-        try {
-            listening();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void listening() throws IOException {
-
-        ServerSocket serverSocket;
-        Socket socket;
-
-        serverSocket = new ServerSocket(10001);
-
-        while (true) {
-            socket = serverSocket.accept();
-        }
-
-    }
-
-}
-*/

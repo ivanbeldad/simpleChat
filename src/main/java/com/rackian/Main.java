@@ -1,5 +1,6 @@
 package com.rackian;
 
+import com.rackian.models.User;
 import com.rackian.services.AliveService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +16,11 @@ public class Main extends Application {
 
     public static final String SERVER_IP = "192.168.1.100";
 
-    public static int PORT_LOGIN = 5000;
-    public static int PORT_REGISTER = 5001;
-    public static int PORT_ALIVE = 5002;
+    public static final int PORT_LOGIN = 5000;
+    public static final int PORT_REGISTER = 5001;
+    public static final int PORT_ALIVE = 5002;
+    public static final int PORT_SEND_MESSAGES = 5003;
+    public static final int PORT_RECEIVE_MESSAGES = 5004;
 
     private static Runnable aliveService;
     public static Executor pool;

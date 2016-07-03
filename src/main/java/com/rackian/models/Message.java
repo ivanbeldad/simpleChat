@@ -3,28 +3,37 @@ package com.rackian.models;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Message implements Serializable {
+public class Message implements Serializable, Comparable<Message> {
 
-    private String nick;
+    private User userOri;
+    private User userDest;
     private String message;
     private LocalDateTime time;
-    private String ip;
 
     public Message() {
     }
 
-    public Message(String nick, String message, LocalDateTime time) {
-        this.nick = nick;
+    public Message(User userOri, User userDest, String message, LocalDateTime time) {
+        this.userOri = userOri;
+        this.userDest = userDest;
         this.message = message;
         this.time = time;
     }
 
-    public String getNick() {
-        return nick;
+    public User getUserOri() {
+        return userOri;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public void setUserOri(User userOri) {
+        this.userOri = userOri;
+    }
+
+    public User getUserDest() {
+        return userDest;
+    }
+
+    public void setUserDest(User userDest) {
+        this.userDest = userDest;
     }
 
     public String getMessage() {
@@ -60,6 +69,11 @@ public class Message implements Serializable {
         time += this.time.getMinute();
 
         return time;
+    }
+
+    @Override
+    public int compareTo(Message o) {
+        return this.getTime().compareTo(o.getTime());
     }
 
 }
