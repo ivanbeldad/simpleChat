@@ -43,8 +43,8 @@ import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
 
-    private User user;
-    private User userDest;
+    private static User user;
+    private static User userDest;
     private List<User> contacts;
     private static List<Message> messages;
 
@@ -59,12 +59,20 @@ public class ChatController implements Initializable {
     @FXML
     private JFXListView<Label> usersListView;
 
-    public User getUser() {
+    public static User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public static void setUser(User user) {
+        ChatController.user = user;
+    }
+
+    public static User getUserDest() {
+        return userDest;
+    }
+
+    public static void setUserDest(User userDest) {
+        ChatController.userDest = userDest;
     }
 
     public static List<Message> getMessages() {

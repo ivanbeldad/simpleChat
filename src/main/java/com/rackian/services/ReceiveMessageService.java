@@ -57,22 +57,24 @@ public class ReceiveMessageService implements Runnable {
             // AGREGO EL MENSAJE A LA LISTA
             ChatController.getMessages().add(message);
 
-            // CREO EL MENSAJE EN EL PANEL
-            mc = new MessageController();
-            mc.setParent(messagePane);
-            mc.setMessage(message);
-            mc.setDirection(MessageController.MESSAGE_RECEIVED);
+            // CREO EL MENSAJE EN EL PANEL SI ES EL USUARIO SELECCIONADO
+            if (message.getUserOri().compareTo(ChatController.getUserDest()) == 0) {
+                mc = new MessageController();
+                mc.setParent(messagePane);
+                mc.setMessage(message);
+                mc.setDirection(MessageController.MESSAGE_RECEIVED);
 
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        mc.createMessage();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            mc.createMessage();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
+            }
 
         }
     }
