@@ -13,6 +13,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -20,6 +22,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -47,7 +53,7 @@ public class ChatController implements Initializable {
     @FXML
     private ScrollPane scrollPane;
     @FXML
-    private JFXListView<Label> usersListView;
+    private JFXListView<StackPane> usersListView;
 
     public static User getUser() {
         return user;
@@ -102,27 +108,8 @@ public class ChatController implements Initializable {
         // HAGO UN BINDEO DEL SCROLL
         scrollBind();
 
-        // MUESTRO LOS CONTACTOS Y ASIGNO EVENTO
-        for (User contact : contacts) {
-            Label label;
-
-            label = new Label(contact.getNick());
-            label.setId(contact.getEmail());
-
-            label.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-                @Override
-                public void handle(Event event) {
-                    if (tfMessage.isDisable()) {
-                        tfMessage.setDisable(false);
-                    }
-                    Label pulsed = (Label) event.getTarget();
-                    userDest = contact;
-                    loadMessages(userDest);
-                }
-            });
-            usersListView.getItems().add(label);
-
-        }
+        // CARGO LOS CONTACTOS
+        loadContacts();
 
         updateOnlineContacts();
 
@@ -253,18 +240,67 @@ public class ChatController implements Initializable {
 
     }
 
+    private void loadContacts() {
+        // MUESTRO LOS CONTACTOS Y ASIGNO EVENTO
+        for (User contact : contacts) {
+            StackPane stackPane;
+            Label label;
+            Circle circle;
+
+            // CREO EL CIRCULO
+            circle = new Circle(7, Paint.valueOf("#4CAF50"));
+            circle.setId(contact.getEmail() + "_circle");
+
+            // CREO LA ETIQUETA
+            label = new Label(contact.getNick());
+            label.setId(contact.getEmail() + "_label");
+
+            // CREO EL PANEL
+            stackPane = new StackPane(label, circle);
+            stackPane.setId(contact.getEmail() + "_stackPane");
+            stackPane.setPadding(new Insets(10,10,10,10));
+            StackPane.setAlignment(label, Pos.CENTER_LEFT);
+            StackPane.setAlignment(circle, Pos.CENTER_RIGHT);
+
+            stackPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+                @Override
+                public void handle(Event event) {
+                    if (tfMessage.isDisable()) {
+                        tfMessage.setDisable(false);
+                    }
+                    StackPane pulsed = (StackPane) event.getTarget();
+                    userDest = contact;
+                    loadMessages(userDest);
+                }
+            });
+            usersListView.getItems().add(stackPane);
+        }
+    }
+
     public void updateOnlineContacts() {
 
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                List<Label> labels;
-                labels = usersListView.getItems();
+                List<StackPane> stackPanes;
+                stackPanes = usersListView.getItems();
                 System.out.println("Modificando");
-                for (Label label : labels) {
+                for (StackPane stackPane : stackPanes) {
                     for (User contact : contacts) {
-                        if (label.getId().equals(contact.getEmail())) {
-                            label.setDisable(!contact.isOnline());
+                        Label label;
+                        Circle circle;
+                        label = (Label) stackPane.getChildren().get(0);
+                        circle = (Circle) stackPane.getChildren().get(1);
+                        if (stackPane.getId().equals(contact.getEmail() + "_stackPane")) {
+                            if (contact.isOnline()) {
+                                label.setDisable(false);
+                                circle.setFill(Paint.valueOf("#4CAF50"));
+                                circle.setStroke(Paint.valueOf("#4CAF50"));
+                            } else {
+                                label.setDisable(true);
+                                circle.setFill(Paint.valueOf("#CFD8DC"));
+                                circle.setStroke(Paint.valueOf("#CFD8DC"));
+                            }
                         }
                     }
                 }

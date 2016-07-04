@@ -7,12 +7,6 @@
     -fx-font-size: 14px;
 }
 
-#usersListView Label {
-    -fx-border-width: 10 0 10 0;
-    -fx-border-color: rgba(0,0,0,0);
-    -fx-padding: 0 0 0 10;
-}
-
 /*
 *:hover {
     -fx-font-family: 'Open Sans';
