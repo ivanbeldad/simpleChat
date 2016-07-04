@@ -122,24 +122,35 @@ public class LoginController {
             user = (User) ois.readObject();
             // READ CONTACTS
             contacts = (List<User>) ois.readObject();
+            for (int i = 0; i < contacts.size(); i++) {
+                if (user.compareTo(contacts.get(i)) == 0) {
+                    contacts.remove(i);
+                    break;
+                }
+            }
             // READ MESSAGES
             messages = (List<Message>) ois.readObject();
 
             // GO TO CHAT APP
-            ChatController controller = new ChatController();
-            controller.setUser(user);
-            controller.setContacts(contacts);
-            controller.setMessages(messages);
+            ChatController chatController = new ChatController();
+            chatController.setUser(user);
+            chatController.setContacts(contacts);
+            chatController.setMessages(messages);
+
+            // START SERVICE
+            AliveService aliveService;
+            aliveService = new AliveService();
+            aliveService.setChatController(chatController);
+            aliveService.setPort(Main.PORT_ALIVE);
+            Main.pool.execute(aliveService);
+
+            // GO TO CHAT APP
             Stage stage = (Stage) email.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("chat.fxml"));
-            loader.setController(controller);
+            loader.setController(chatController);
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
-
-            // START SERVICE
-            Main.pool.execute(new AliveService(Main.PORT_ALIVE));
-            System.out.println("Inicio de servicio de comprobación de estado.");
 
         } else {
             System.out.println("Acceso no autorizado");

@@ -1,6 +1,5 @@
 package com.rackian;
 
-import com.rackian.services.AliveService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,7 +11,7 @@ import java.util.concurrent.ThreadFactory;
 
 public class Main extends Application {
 
-    public static final String SERVER_IP = "192.168.1.254";
+    public static final String SERVER_IP = "192.168.1.100";
 
     public static final int PORT_LOGIN = 5000;
     public static final int PORT_REGISTER = 5001;
@@ -23,9 +22,9 @@ public class Main extends Application {
     private static Runnable aliveService;
     public static Executor pool;
 
-    public static void main(String[] args) {
+    public static Stage stage;
 
-        aliveService = new AliveService(PORT_ALIVE);
+    public static void main(String[] args) {
 
         pool = Executors.newCachedThreadPool(new ThreadFactory() {
             @Override
@@ -42,6 +41,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        stage = primaryStage;
 
         FXMLLoader fxml;
         Pane rootPane;

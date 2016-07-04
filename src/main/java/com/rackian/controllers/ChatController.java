@@ -1,35 +1,25 @@
 package com.rackian.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import com.rackian.Main;
 import com.rackian.models.Message;
 import com.rackian.models.User;
 import com.rackian.services.ReceiveMessageService;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -45,7 +35,7 @@ public class ChatController implements Initializable {
 
     private static User user;
     private static User userDest;
-    private List<User> contacts;
+    private static List<User> contacts;
     private static List<Message> messages;
 
     @FXML
@@ -83,12 +73,19 @@ public class ChatController implements Initializable {
         ChatController.messages = messages;
     }
 
-    public List<User> getContacts() {
+    public static List<User> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<User> contacts) {
-        this.contacts = contacts;
+    public static void setContacts(List<User> contacts) {
+        for (int i = 0; i < contacts.size(); i++) {
+            System.out.println(contacts.get(i).getEmail() + ": " + contacts.get(i).isOnline());
+            if (contacts.get(i).compareTo(user) == 0) {
+                contacts.remove(i);
+                i--;
+            }
+        }
+        ChatController.contacts = contacts;
     }
 
     @Override
@@ -109,24 +106,25 @@ public class ChatController implements Initializable {
         for (User contact : contacts) {
             Label label;
 
-            if (contact.compareTo(user) != 0) {
-                label = new Label(contact.getNick());
+            label = new Label(contact.getNick());
+            label.setId(contact.getEmail());
 
-                label.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-                    @Override
-                    public void handle(Event event) {
-                        if (tfMessage.isDisable()) {
-                            tfMessage.setDisable(false);
-                        }
-                        Label pulsed = (Label) event.getTarget();
-                        userDest = contact;
-                        loadMessages(userDest);
+            label.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+                @Override
+                public void handle(Event event) {
+                    if (tfMessage.isDisable()) {
+                        tfMessage.setDisable(false);
                     }
-                });
-                usersListView.getItems().add(label);
-            }
+                    Label pulsed = (Label) event.getTarget();
+                    userDest = contact;
+                    loadMessages(userDest);
+                }
+            });
+            usersListView.getItems().add(label);
 
         }
+
+        updateOnlineContacts();
 
     }
 
@@ -252,6 +250,26 @@ public class ChatController implements Initializable {
         };
 
         messagePane.heightProperty().addListener(changeListener);
+
+    }
+
+    public void updateOnlineContacts() {
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                List<Label> labels;
+                labels = usersListView.getItems();
+                System.out.println("Modificando");
+                for (Label label : labels) {
+                    for (User contact : contacts) {
+                        if (label.getId().equals(contact.getEmail())) {
+                            label.setDisable(!contact.isOnline());
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
