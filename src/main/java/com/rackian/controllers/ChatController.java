@@ -85,7 +85,7 @@ public class ChatController implements Initializable {
 
     public static void setContacts(List<User> contacts) {
         for (int i = 0; i < contacts.size(); i++) {
-            System.out.println(contacts.get(i).getEmail() + ": " + contacts.get(i).isOnline());
+            //System.out.println(contacts.get(i).getEmail() + ": " + contacts.get(i).isOnline());
             if (contacts.get(i).compareTo(user) == 0) {
                 contacts.remove(i);
                 i--;
@@ -147,7 +147,7 @@ public class ChatController implements Initializable {
 
     }
 
-    private void createMessagePanel(Message message, int direction) throws IOException {
+    public void createMessagePanel(Message message, int direction) throws IOException {
         // CREO EL MENSAJE ENVIADO EN EL PANEL
         MessageController mc;
         mc = new MessageController();
@@ -284,7 +284,7 @@ public class ChatController implements Initializable {
             public void run() {
                 List<StackPane> stackPanes;
                 stackPanes = usersListView.getItems();
-                System.out.println("Modificando");
+                //System.out.println("Modificando");
                 for (StackPane stackPane : stackPanes) {
                     for (User contact : contacts) {
                         Label label;

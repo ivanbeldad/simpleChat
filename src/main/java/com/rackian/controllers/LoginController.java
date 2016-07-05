@@ -213,6 +213,10 @@ public class LoginController {
                 // READ MESSAGES
                 messages = (List<Message>) ois.readObject();
 
+                // READ PORT SERVICE
+                int port;
+                port = (int) ois.readObject();
+
                 // GO TO CHAT APP
                 ChatController chatController = new ChatController();
                 chatController.setUser(user);
@@ -223,7 +227,7 @@ public class LoginController {
                 AliveService aliveService;
                 aliveService = new AliveService();
                 aliveService.setChatController(chatController);
-                aliveService.setPort(Main.PORT_ALIVE);
+                aliveService.setPort(port);
                 Main.pool.execute(aliveService);
 
                 // GO TO CHAT APP

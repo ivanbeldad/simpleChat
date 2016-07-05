@@ -61,6 +61,7 @@ public class MessageController {
             tempMessage.setUserDest(message.getUserOri());
             tempMessage.setMessage(message.getMessage());
             tempMessage.setTime(message.getTime());
+            tempMessage.setStatus(Message.STATUS_SENT);
 
             loader.setLocation(getClass().getClassLoader().getResource("messageReceived.fxml"));
             loader.setController(new MessageReceivedController(tempMessage));
