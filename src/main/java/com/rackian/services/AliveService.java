@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -51,18 +52,30 @@ public class AliveService implements Runnable {
     @Override
     public void run() {
 
-        ServerSocket serverSocket;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Socket socket;
         InputStream is;
         ObjectInputStream ois;
+        InetSocketAddress address;
+        String ip;
+        int port;
+
+        ip = Main.SERVER_IP;
+        port = Main.PORT_ALIVE;
+        address = new InetSocketAddress(ip, port);
 
         System.out.println("Inicio de servicio de comprobación de estado.");
         try {
-            serverSocket = new ServerSocket(port);
 
             while (true) {
-                socket = serverSocket.accept();
-                serverSocket.setSoTimeout(2000);
+
+                socket = new Socket(ip, port);
+                socket.setSoTimeout(1000);
 
                 is = socket.getInputStream();
                 ois = new ObjectInputStream(is);
@@ -76,29 +89,27 @@ public class AliveService implements Runnable {
                 }
 
                 socket.close();
+
+                Thread.sleep(500);
             }
-
-        } catch (IOException e) {
-
+        } catch (Exception e) {
             // MANDO AL LOGIN POR CONEXIÓN PERDIDA
             System.out.println("Conexión perdida");
 
             Platform.runLater(new Runnable() {
-
                 @Override
                 public void run() {
                     try {
-                    FXMLLoader fxml = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
-                    Pane rootPane = (Pane) fxml.load();
-                    Scene scene = new Scene(rootPane);
-                    Main.stage.setScene(scene);
+                        FXMLLoader fxml = new FXMLLoader();
+                        fxml.setLocation(getClass().getClassLoader().getResource("login.fxml"));
+                        Pane rootPane = (Pane) fxml.load();
+                        Scene scene = new Scene(rootPane);
+                        Main.stage.setScene(scene);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
                 }
             });
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
     }
