@@ -3,6 +3,7 @@ package com.rackian.controllers;
 import com.jfoenix.controls.JFXListView;
 import com.rackian.Main;
 import com.rackian.models.Message;
+import com.rackian.models.MessageByTime;
 import com.rackian.models.User;
 import com.rackian.services.ReceiveMessageService;
 import javafx.application.Platform;
@@ -209,7 +210,7 @@ public class ChatController implements Initializable {
         }
 
         // LOS ORDENO POR FECHA
-        Collections.sort(messages);
+        Collections.sort(messages, new MessageByTime());
 
         // LOS MUESTRO EN EL PANEL
         messages.forEach(m -> {

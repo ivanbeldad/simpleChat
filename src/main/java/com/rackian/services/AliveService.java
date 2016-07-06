@@ -80,7 +80,7 @@ public class AliveService implements Runnable {
             while (true) {
 
                 socket = new Socket();
-                socket.setSoTimeout(1000);
+                socket.setSoTimeout(1500);
                 socket.connect(address);
                 is = socket.getInputStream();
                 ois = new ObjectInputStream(is);
